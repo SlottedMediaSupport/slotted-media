@@ -3570,11 +3570,62 @@ function CCFlow(props) {
 /* ══════════════════════════════════════════════════════════════
    ROOT ROUTER
    ══════════════════════════════════════════════════════════════ */
+/* ── COMING SOON PAGE ── */
+var COMING_SOON = true; // ← Change to false when ready to launch
+
+function ComingSoon() {
+  var st = useState(""); var email = st[0]; var setEmail = st[1];
+  var st2 = useState(false); var submitted = st2[0]; var setSubmitted = st2[1];
+  return (
+    <div style={{minHeight:"100vh",background:"#0A0A0E",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Sora',system-ui,sans-serif",color:"#fff",textAlign:"center",padding:40}}>
+      <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=Newsreader:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet" />
+      <style>{`@keyframes csFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes csPulse{0%,100%{opacity:0.4}50%{opacity:1}}@keyframes csFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}`}</style>
+      <div style={{maxWidth:600}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:12,marginBottom:40,animation:"csFloat 4s ease-in-out infinite"}}>
+          <div style={{display:"flex",gap:4}}>
+            <div style={{width:8,height:28,background:"#F0C35F",borderRadius:4}}/>
+            <div style={{width:8,height:28,background:"#F0C35F",borderRadius:4}}/>
+            <div style={{width:8,height:28,background:"#F0C35F",borderRadius:4}}/>
+          </div>
+          <span style={{fontSize:24,fontWeight:800,letterSpacing:-1}}>SlottedMedia</span>
+        </div>
+        <h1 style={{fontFamily:"'Newsreader',serif",fontSize:"clamp(36px,6vw,64px)",fontWeight:400,lineHeight:1.15,margin:"0 0 20px",animation:"csFade 1s ease-out both"}}>
+          Something <span style={{fontStyle:"italic",color:"#F0C35F"}}>big</span> is<br/>coming soon.
+        </h1>
+        <p style={{fontSize:18,color:"rgba(255,255,255,0.45)",lineHeight:1.7,margin:"0 0 40px",animation:"csFade 1s ease-out 0.2s both"}}>
+          We're building powerful, focused tools for warehouse and supply chain teams. Be the first to know when we launch.
+        </p>
+        {!submitted ? (
+          <div style={{display:"flex",gap:0,maxWidth:440,margin:"0 auto",background:"rgba(255,255,255,0.05)",borderRadius:12,border:"1px solid rgba(240,195,95,0.15)",overflow:"hidden",animation:"csFade 1s ease-out 0.4s both"}}>
+            <input type="email" value={email} onChange={function(e){setEmail(e.target.value);}} placeholder="you@company.com" style={{flex:1,padding:"16px 20px",background:"transparent",border:"none",color:"#fff",fontSize:16,fontFamily:"'Sora',sans-serif",outline:"none"}}/>
+            <button onClick={function(){if(email.includes("@")){setSubmitted(true);}}} style={{padding:"16px 28px",background:"#F0C35F",border:"none",color:"#0A0A0E",fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"'Sora',sans-serif"}}>Notify Me</button>
+          </div>
+        ) : (
+          <div style={{padding:"16px 28px",borderRadius:12,background:"rgba(240,195,95,0.1)",border:"1px solid rgba(240,195,95,0.2)",animation:"csFade 0.5s ease-out both"}}>
+            <span style={{color:"#F0C35F",fontWeight:700}}>You're on the list.</span>
+            <span style={{color:"rgba(255,255,255,0.5)",marginLeft:8}}>We'll reach out when we launch.</span>
+          </div>
+        )}
+        <div style={{display:"flex",justifyContent:"center",gap:28,marginTop:48,animation:"csFade 1s ease-out 0.6s both"}}>
+          {["Warehouse Slotting","Inventory Health","Demand Forecasting","Wave Planning","KPI Dashboards"].map(function(t){
+            return <div key={t} style={{display:"flex",alignItems:"center",gap:6}}>
+              <div style={{width:4,height:4,borderRadius:"50%",background:"#F0C35F",animation:"csPulse 3s ease-in-out infinite"}}/>
+              <span style={{fontSize:11,color:"rgba(255,255,255,0.25)",letterSpacing:0.5}}>{t}</span>
+            </div>;
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   var s = useState("home"); var page = s[0]; var setPage = s[1];
   useEffect(function() { window.scrollTo(0, 0); }, [page]);
   function nav(p) { setPage(p); }
   function goHome() { nav("home"); }
+
+  if (COMING_SOON) return <ComingSoon />;
 
   return (
     <div>
