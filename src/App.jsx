@@ -3576,6 +3576,17 @@ var COMING_SOON = true; // ← Change to false when ready to launch
 function ComingSoon() {
   var st = useState(""); var email = st[0]; var setEmail = st[1];
   var st2 = useState(false); var submitted = st2[0]; var setSubmitted = st2[1];
+  var st3 = useState(false); var sending = st3[0]; var setSending = st3[1];
+  function handleSubmit() {
+    if (!email.includes("@") || sending) return;
+    setSending(true);
+    fetch("https://formspree.io/f/xnjonqlv", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email })
+    }).then(function() { setSubmitted(true); setSending(false); })
+      .catch(function() { setSubmitted(true); setSending(false); });
+  }
   return (
     <div style={{minHeight:"100vh",background:"#0A0A0E",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Sora',system-ui,sans-serif",color:"#fff",textAlign:"center",padding:40}}>
       <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=Newsreader:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet" />
@@ -3598,7 +3609,7 @@ function ComingSoon() {
         {!submitted ? (
           <div style={{display:"flex",gap:0,maxWidth:440,margin:"0 auto",background:"rgba(255,255,255,0.05)",borderRadius:12,border:"1px solid rgba(240,195,95,0.15)",overflow:"hidden",animation:"csFade 1s ease-out 0.4s both"}}>
             <input type="email" value={email} onChange={function(e){setEmail(e.target.value);}} placeholder="you@company.com" style={{flex:1,padding:"16px 20px",background:"transparent",border:"none",color:"#fff",fontSize:16,fontFamily:"'Sora',sans-serif",outline:"none"}}/>
-            <button onClick={function(){if(email.includes("@")){setSubmitted(true);}}} style={{padding:"16px 28px",background:"#F0C35F",border:"none",color:"#0A0A0E",fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"'Sora',sans-serif"}}>Notify Me</button>
+            <button onClick={handleSubmit} style={{padding:"16px 28px",background:"#F0C35F",border:"none",color:"#0A0A0E",fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"'Sora',sans-serif"}}>{sending ? "Sending..." : "Notify Me"}</button>
           </div>
         ) : (
           <div style={{padding:"16px 28px",borderRadius:12,background:"rgba(240,195,95,0.1)",border:"1px solid rgba(240,195,95,0.2)",animation:"csFade 0.5s ease-out both"}}>
